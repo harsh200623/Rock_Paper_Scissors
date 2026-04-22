@@ -1,50 +1,62 @@
-function getComputerChoice(){
-    let val = Math.floor(Math.random() * 3);
-    switch(val){
+function computerChoice(){
+    let chosen = Math.floor(Math.random()*3);
+    switch(chosen){
         case 0:
-            return "rock";//in switch statement, we usually have break at the end but since we are using return here, we don't need it
+            return 'rock';
         case 1:
-            return "paper";
+            return 'paper';
         case 2:
-            return "scissors";
+            return 'scissor';
     }
 }
-function getHumanChoice(){
-    let choice = prompt("Enter the choice : ", '');
-    let ans = choice.toLowerCase();
-    console.log(`Your choice is : ${ans}`);
-    return ans;
+function humanChoice(){
+    let human_choice;
+    while (true){
+        let choice_of_human = prompt('Enter rock, paper, or scissor');
+        if(!choice_of_human){ //if the user input is null
+            console.log('Enter an input');
+            continue;
+        }
+        human_choice = choice_of_human.toLowerCase();
+        if (!['rock', 'paper', 'scissor'].includes(human_choice)) console.log('Wrong Input');// if the user inputs anything other than rock,....
+        else break;
+    }
+    console.log(`Your choice is ${human_choice}`);
+    return human_choice;
 }
-let humanScore = 0, computerScore = 0;
-//current_humanScore = 0, current_computerScore = 0;
 
-function playRound(){
-    let compChoice = getComputerChoice();//store the value of computer and human choice once, if you call them again and again then the 
-    let humanChoice = getHumanChoice();//browser will ask for Enter the choice multiple times.
+let final_human = 0;
+let final_comp = 0;
 
-    let current_humanScore = 0, current_computerScore = 0;
-    if(compChoice == "scissors" && humanChoice == "rock") current_humanScore++;
-    else if(compChoice == "rock" && humanChoice == "paper") current_humanScore++;
-    else if(compChoice == "rock" && humanChoice == "scissors") current_computerScore++;
-    else if(compChoice == "paper" && humanChoice == "rock") current_computerScore++;
-    else if(compChoice == "paper" && humanChoice == "scissors") current_humanScore++;
-    else if(compChoice == "scissors" && humanChoice == "paper") current_computerScore++;
+function round(){
 
-    if(current_humanScore > current_computerScore) console.log("You won this round!");
-    else if(current_humanScore < current_computerScore) console.log("You lost this round!");
-    else console.log("This match is a Draw!");
+    let compChoice = computerChoice();
+    let humChoice = humanChoice();
 
-    humanScore += current_humanScore;
-    computerScore += current_computerScore;
+    console.log(`Computer chose ${compChoice}`);
+    console.log(`You chose ${humChoice}`);
+
+    if (compChoice === humChoice) {
+    console.log("Round drawn");
+    }
+else if (
+    (humChoice === "rock" && compChoice === "scissor") ||
+    (humChoice === "paper" && compChoice === "rock") ||
+    (humChoice === "scissor" && compChoice === "paper")
+) {
+    final_human++;
+    console.log("You won this round");
 }
-function playGame(){
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-    playRound();
-    
-    humanScore > computerScore ? console.log("You have won the tournament") : console.log("The computer has won the tournament");
-    return;
+else {
+    final_comp++;
+    console.log("Computer won this round");
 }
-playGame();
+}
+function rps(){
+    for(let i = 1; i<=5; i++){
+        round();
+    }
+    if(final_comp > final_human) console.log(`Final winner is Computer with ${final_comp} points`);
+    else if(final_comp === final_human) console.log(`It is a Draw`);
+    else console.log(`Final winner is You with ${final_human} points`);
+}
