@@ -21,7 +21,6 @@ function humanChoice(){
         if (!['rock', 'paper', 'scissor'].includes(human_choice)) console.log('Wrong Input');// if the user inputs anything other than rock,....
         else break;
     }
-    console.log(`Your choice is ${human_choice}`);
     return human_choice;
 }
 
